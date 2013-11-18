@@ -2,14 +2,11 @@ package com.springmvcmaventutorial.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.springmvcmaventutorial.bean.Book;
 import com.springmvcmaventutorial.dao.BookMapper;
 import com.springmvcmaventutorial.service.api.BookService;
 
 public class BookServiceImpl implements BookService {
-	@Autowired
 	private BookMapper bookMapper;
 	
 	public BookMapper getBookMapper() {

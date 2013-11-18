@@ -47,21 +47,66 @@
     <tx:annotation-driven />
 
     <!-- define the SqlSessionFactory -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> -->
+<!--         <property name="dataSource" ref="dataSource" /> -->
+<!--         <property name="typeAliasesPackage" value="com.springmvcmaventutorial.bean" /> -->
+<!--     </bean> -->
+    <!-- scan for mappers and let them be autowired -->
+<!--     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> -->
+<!--         <property name="basePackage" value="com.springmvcmaventutorial.dao" /> -->
+<!--     </bean> -->
+
+	<!-- mappers -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="typeAliasesPackage" value="com.springmvcmaventutorial.bean" />
+        <property name="mapperLocations" value="classpath:com/springmvcmaventutorial/dao/*.xml" />
     </bean>
 
-    <!-- scan for mappers and let them be autowired -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.springmvcmaventutorial.dao" />
-    </bean>
+	<bean id="memberMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  <property name="mapperInterface" value="com.springmvcmaventutorial.dao.MemberMapper" />
+	  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="bookMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  <property name="mapperInterface" value="com.springmvcmaventutorial.dao.BookMapper" />
+	  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="rentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  <property name="mapperInterface" value="com.springmvcmaventutorial.dao.RentMapper" />
+	  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="commonMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  <property name="mapperInterface" value="com.springmvcmaventutorial.dao.CommonMapper" />
+	  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
 
 	<!-- services -->
-    <bean id="memberService" class="com.springmvcmaventutorial.service.impl.MemberServiceImpl" />
-    <bean id="bookService" class="com.springmvcmaventutorial.service.impl.BookServiceImpl"/>
-    <bean id="rentService" class="com.springmvcmaventutorial.service.impl.RentServiceImpl" />
-    <bean id="commonService" class="com.springmvcmaventutorial.service.api.CommonService" />
+    <bean id="memberService" class="com.springmvcmaventutorial.service.impl.MemberServiceImpl">
+    	<property name="memberMapper">
+            <ref local="memberMapper"/>
+        </property>
+    </bean>
+    <bean id="bookService" class="com.springmvcmaventutorial.service.impl.BookServiceImpl">
+    	<property name="bookMapper">
+            <ref local="bookMapper"/>
+        </property>
+    </bean>
+    <bean id="rentService" class="com.springmvcmaventutorial.service.impl.RentServiceImpl">
+    	<property name="bookMapper">
+            <ref local="bookMapper"/>
+        </property>
+        <property name="rentMapper">
+            <ref local="rentMapper"/>
+        </property>
+    </bean>
+    <bean id="commonService" class="com.springmvcmaventutorial.service.api.CommonService">
+    	<property name="commonMapper">
+            <ref local="commonMapper"/>
+        </property>
+    </bean>
     
 	<!-- set controllers services -->
 	<bean id="mainController" class="com.springmvcmaventutorial.controller.MainController">

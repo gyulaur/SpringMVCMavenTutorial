@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.springmvcmaventutorial.bean.Book;
 import com.springmvcmaventutorial.bean.Member;
 import com.springmvcmaventutorial.bean.RentedBooksByMember;
@@ -15,10 +13,7 @@ import com.springmvcmaventutorial.dao.RentMapper;
 import com.springmvcmaventutorial.service.api.RentService;
 
 public class RentServiceImpl implements RentService {
-	@Autowired
 	private RentMapper rentMapper;
-	
-	@Autowired 
 	private BookMapper bookMapper;
 	
 	public RentMapper getRentMapper() {

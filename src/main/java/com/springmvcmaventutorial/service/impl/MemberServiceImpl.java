@@ -2,14 +2,11 @@ package com.springmvcmaventutorial.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.springmvcmaventutorial.bean.Member;
 import com.springmvcmaventutorial.dao.MemberMapper;
 import com.springmvcmaventutorial.service.api.MemberService;
 
 public class MemberServiceImpl implements MemberService{
-	@Autowired
 	private MemberMapper memberMapper;
 	
 	public MemberMapper getMemberMapper() {
